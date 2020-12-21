@@ -1105,10 +1105,8 @@ add_DUMMY_eed (Dwg_Object *obj)
   char *name = obj->dxfname;
   BITCODE_H appid;
   Dwg_Eed_Data *data;
-  int i = 1;
-  int len;
-  int size;
-  int off = 0;
+  int i = 1, off = 0;
+  int len, size;
   const bool is_tu = dwg->header.version >= R_2007;
 
 #ifdef HAVE_STDDEF_H /* just cygwin not */
@@ -1129,7 +1127,7 @@ add_DUMMY_eed (Dwg_Object *obj)
   ent->eed = calloc (2, sizeof (Dwg_Eed));
   len = strlen (name);
   size = is_tu ? 5 + ((len + 1) * 2) : 5 + len + 1; // RC + 2*RS + string
-  data = ent->eed[0].data = (Dwg_Eed_Data *)calloc (size, 1);
+  data = ent->eed[0].data = (Dwg_Eed_Data *)calloc (size + 2, 1);
   ent->eed[0].size = size;
   dwg_add_handle (&ent->eed[0].handle, 5, appid->absolute_ref, NULL);
   data->code = 0; // RC
